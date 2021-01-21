@@ -7,9 +7,20 @@ import pickle
 
 from sklearn import preprocessing as preproc
 import seaborn as sns
+import abc
 
 # abc class here
+class MustHaveForFeatureEngineering:
 
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def cleaning_data(self):
+        return
+
+    @abc.abstractmethod
+    def null_plot(self):
+        return
 
 # child class here
 
