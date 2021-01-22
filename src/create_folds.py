@@ -6,7 +6,7 @@ import config
 
 class SKFold:
 
-    def create_folds(self, num_folds, dataset):
+    def create_folds(self, dataset, num_folds):
         '''
         In this code we will assign values to the column kfold
         and use that during training the model
