@@ -6,19 +6,22 @@ import feature_engg
 import create_folds
 
 import argparse
+import numpy as np
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import GridSearchCV
 
 # train function here
-def run(dataset, fold):
+def run(X_train, y_train,
+        k_neighbours, fold):
     '''
 
-    :param dataset:
+    :param X_train:
+    :param y_train:
+    :param k_neighbours:
     :param fold:
     :return:
     '''
-    return
 
 # test function here
 def inference_stage(dataset, model):
@@ -74,7 +77,25 @@ if __name__ == "__main__":
         dl_obj.dump_file(config.CLEAN_TEST_DATASET, X_clean_test_set, y_clean_test_set)
 
     elif args.train == 'skfold':
-        pass
+
+        # load the train dataset
+        X_train, y_train = dl_obj.load_file(config.CLEAN_TRAIN_DATASET)
+        print(X_train.shape, y_train.shape)
+
+        # we need to maintain the f1 score on average
+        # for all 5 folds for all k neighbours
+        f1_score_avg = []
+
+        for k in range(1,51):
+            f1_score_run = []
+            for fold_value in range(config.NUM_FOLDS):
+                f1_score_run.append(run(X_train=X_train, y_train=y_train,
+                                    k_neighbours=k, fold=fold_value))
+
+            # storing the average test score of 5 runs for each k
+            f1_score_avg.append(np.mean(f1_score_run))
+
+        # dump the metric score, as we will use this as a plot
 
     elif args.test == 'inference':
         pass
