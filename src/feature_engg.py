@@ -27,15 +27,15 @@ class MustHaveForFeatureEngineering:
 # child class here
 class FeatureEngineering(MustHaveForFeatureEngineering):
 
-    def scale_features(self, features):
+    def scale_features(self, dataset):
         '''
         Applying standard scaling here
         :param features: features to be scaled
         :return: scaled features
         '''
-        features_scaled = preproc.StandardScaler().fit_transform(features)
-
-        return features_scaled
+        for feature in dataset.columns:
+            dataset[feature] = preproc.minmax_scale(dataset[[feature]])
+        return dataset
 
 
     def cleaning_data(self, dataset):
@@ -47,12 +47,12 @@ class FeatureEngineering(MustHaveForFeatureEngineering):
 
         # apply feature scaling here
         features = dataset.drop(config.OUTPUT_FEATURE, axis=1, inplace=False)
-        target = dataset[config.OUTPUT_FEATURE]
 
         features_scaled = self.scale_features(features)
 
-
-        return features_scaled, target.values
+        features_scaled[config.OUTPUT_FEATURE] = dataset[config.OUTPUT_FEATURE]
+        print(type(features_scaled))
+        return features_scaled
 
     def null_plot(self, dataset):
         """
