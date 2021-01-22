@@ -21,6 +21,7 @@ NULL_CHECK_HEATMAP = '../plots/null_check_heatmap.png'
 # for model training purposes
 DISTANCE_METRIC = 'cosine'
 NUM_FOLDS = 5
+NUM_NEIGHBOURS = 15     # obtained from empirical evidence
 #knn is a lazy learner, so no need to save the model
 TRAIN_ACCURACY_SCORE = '../results/train_accuracy_score.pickle'
-TEST_ACCURACY_SCORE = '../results/test_accuracy_score.pickle'
+VALIDATION_ACCURACY_SCORE = '../results/validation_accuracy_score.pickle'
