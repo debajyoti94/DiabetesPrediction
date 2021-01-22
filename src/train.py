@@ -53,13 +53,32 @@ def run(dataset,
 
 
 # test function here
-def inference_stage(dataset, model):
+def inference_stage(train_set, test_set, k_neighbours):
     '''
 
-    :param dataset:
-    :param model:
+    :param train_set:
+    :param test_set:
+    :param k_neighbours:
     :return:
     '''
+    X_train = train_set.drop(config.OUTPUT_FEATURE, axis=1,
+                             inplace=False)
+    y_train = train_set[config.OUTPUT_FEATURE]
+
+    X_test = test_set.drop(config.OUTPUT_FEATURE, axis=1,
+                           inplace=False)
+    y_test = test_set[config.OUTPUT_FEATURE]
+
+    # fit the model
+    knn = KNeighborsClassifier(n_neighbors=k_neighbours,
+                               metric=config.DISTANCE_METRIC)
+    knn.fit(X_train, y_train)
+
+    # returning the mean accuracy score
+    return knn.score(X_test, y_test)
+
+
+
     return
 
 
@@ -122,29 +141,41 @@ if __name__ == "__main__":
         # we need to maintain the f1 score on average
         # for all 5 folds for all k neighbours
         train_accuracy_avg = []
-        test_accuracy_avg = []
+        valid_accuracy_avg = []
 
         for k in range(1,51):
             train_accuracy_per_k = []
-            test_accuracy_per_k = []
+            valid_accuracy_per_k = []
             for fold_value in range(config.NUM_FOLDS):
                 train_accuracy, test_accuracy = run(dataset=train_set,
                                     k_neighbours=k, fold=fold_value)
 
                 train_accuracy_per_k.append(train_accuracy)
-                test_accuracy_per_k.append(test_accuracy)
+                valid_accuracy_per_k.append(test_accuracy)
 
             # storing the average test score of 5 runs for each k
             train_accuracy_avg.append(np.mean(train_accuracy_per_k))
-            test_accuracy_avg.append(np.mean(test_accuracy_per_k))
+            valid_accuracy_avg.append(np.mean(valid_accuracy_per_k))
 
-        # print(train_accuracy_avg, test_accuracy_avg)
+        # print(train_accuracy_avg, valid_accuracy_avg)
         # dump the metric score, as we will use this as a plot
         dl_obj.dump_file(config.TRAIN_ACCURACY_SCORE, train_accuracy_avg)
-        dl_obj.dump_file(config.TEST_ACCURACY_SCORE, test_accuracy_avg)
+        dl_obj.dump_file(config.VALIDATION_ACCURACY_SCORE, valid_accuracy_avg)
 
         print("Model training complete.\n"
               " Please refer to accuracy scores to identify the optimum k value.")
 
     elif args.test == 'inference':
-        pass
+
+        # since knn is a lazy learner, we have to fit again with
+        # training set before prediction starts
+
+        # load train and test set
+        train_set = dl_obj.load_file(config.CLEAN_TRAIN_DATASET)
+        test_set = dl_obj.load_file(config.CLEAN_TEST_DATASET)
+        
+        num_neighbours = 18
+        # call the inference stage function and get accuracy score
+        test_accuracy = inference_stage(train_set[0], test_set[0],
+                                        num_neighbours)
+        print(test_accuracy)
