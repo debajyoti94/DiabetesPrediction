@@ -1,0 +1,4 @@
+seaborn==0.8
+pandas==0.24.1
+numpy==1.19.5
+scikit_learn==0.24.1
