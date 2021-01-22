@@ -21,7 +21,7 @@ The repository has multiple directories, with each serving a different purpose:
 ## To obtain clean data and split it into train and test set, use the following command:
   ```python train.py --clean dataset```
   
-### To train the model using Stratied Kfold cross validation use following command:
+### To train the model using Stratified Kfold cross validation use following command:
   ```python train.py --train skfold```
 
 ### For inference stage, use:
