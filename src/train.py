@@ -174,8 +174,8 @@ if __name__ == "__main__":
         train_set = dl_obj.load_file(config.CLEAN_TRAIN_DATASET)
         test_set = dl_obj.load_file(config.CLEAN_TEST_DATASET)
         
-        num_neighbours = 18
+
         # call the inference stage function and get accuracy score
         test_accuracy = inference_stage(train_set[0], test_set[0],
-                                        num_neighbours)
+                                        config.NUM_NEIGHBOURS)
         print(test_accuracy)
