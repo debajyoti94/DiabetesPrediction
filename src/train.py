@@ -66,12 +66,12 @@ if __name__ == "__main__":
         raw_test_set = dl_obj.load_file(config.RAW_TEST_DATASET)
 
         # clean the datasets
-        clean_train_set = fr_obj.clean_dataset(raw_train_set)
-        clean_test_set = fr_obj.clean_dataset(raw_test_set)
+        X_clean_train_set, y_clean_train_set = fr_obj.cleaning_data(raw_train_set)
+        X_clean_test_set, y_clean_test_set = fr_obj.cleaning_data(raw_test_set)
 
         # dump the clean datasets
-        dl_obj.dump_file(clean_train_set, config.CLEAN_TRAIN_DATASET)
-        dl_obj.dump_file(clean_train_set, config.CLEAN_TEST_DATASET)
+        dl_obj.dump_file(config.CLEAN_TRAIN_DATASET, X_clean_train_set, y_clean_train_set)
+        dl_obj.dump_file(config.CLEAN_TEST_DATASET, X_clean_test_set, y_clean_test_set)
 
     elif args.train == 'skfold':
         pass
