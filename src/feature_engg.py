@@ -33,7 +33,7 @@ class FeatureEngineering(MustHaveForFeatureEngineering):
         :param features: features to be scaled
         :return: scaled features
         '''
-        features_scaled = preproc.StandardScaler.fit_transform(features)
+        features_scaled = preproc.StandardScaler().fit_transform(features)
 
         return features_scaled
 
@@ -50,9 +50,9 @@ class FeatureEngineering(MustHaveForFeatureEngineering):
         target = dataset[config.OUTPUT_FEATURE]
 
         features_scaled = self.scale_features(features)
-        features_scaled[config.OUTPUT_FEATURE]  = target
 
-        return features_scaled
+
+        return features_scaled, target.values
 
     def null_plot(self, dataset):
         """
@@ -78,10 +78,10 @@ class DumpLoadFile:
         with open(filename, 'rb') as pickle_handle:
             return pickle.load(pickle_handle)
 
-    def dump_file(self, file, filename):
+    def dump_file(self, filename, *file):
         '''
         Pickle a file
-        :param file: file that you want to pickle
+        :param *file: files that you want to pickle
         :param filename: filename for the pickled file
         :return: nothing
         '''
