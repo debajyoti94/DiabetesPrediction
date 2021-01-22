@@ -17,6 +17,10 @@ The repository has multiple directories, with each serving a different purpose:
     - train.py: this file contains the code for implementing the model. The train and the inference stage.
  - results/: contains the train and validation accuracy scores for k:1-50. This helps me identify the ideal k value.
  - plots/: used to store all the plots for visualizing the data and interpreting experimental results.
+ - requirements.txt: consists of all the python packages necessary to run this project.
+
+## To install the packages necessary for the project, use requirements.txt:
+  ```pip install -r requirements.txt```
 
 ## To obtain clean data and split it into train and test set, use the following command:
   ```python train.py --clean dataset```
