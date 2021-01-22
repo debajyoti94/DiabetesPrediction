@@ -3,6 +3,7 @@
 from sklearn import model_selection
 import config
 
+
 class SKFold:
 
     def create_folds(self, num_folds, dataset):
