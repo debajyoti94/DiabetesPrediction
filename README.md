@@ -19,10 +19,10 @@ The repository has multiple directories, with each serving a different purpose:
  - plots/: used to store all the plots for visualizing the data and interpreting experimental results.
  - requirements.txt: consists of all the python packages necessary to run this project.
 
-## To install the packages necessary for the project, use requirements.txt:
+### To install the packages necessary for the project, use requirements.txt:
   ```pip install -r requirements.txt```
 
-## To obtain clean data and split it into train and test set, use the following command:
+### To obtain clean data and split it into train and test set, use the following command:
   ```python train.py --clean dataset```
   
 ### To train the model using Stratified Kfold cross validation use following command:
